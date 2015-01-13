@@ -1,4 +1,65 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context=".MainActivity" tools:ignore="MergeRootFrame" />
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+
+    <LinearLayout
+        android:id="@+id/bleow_two_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/bleow_two_btn_rl_main"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/abc_dropdownitem_text_padding_right"
+            android:paddingBottom="@dimen/abc_dropdownitem_text_padding_right"
+            android:background="@color/bottom_bg"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/bleow_two_btn_main_pager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:contentDescription="null"
+                android:background="@drawable/main_blow_main_pager_img"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/bleow_two_btn_rl_collection"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/abc_dropdownitem_text_padding_right"
+            android:paddingBottom="@dimen/abc_dropdownitem_text_padding_right"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/bleow_two_btn_collection_pager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:contentDescription="null"
+                android:background="@drawable/main_blow_colection_pager_img"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/id_fragment_main"
+        android:layout_above="@+id/bleow_two_btn"
+        android:name="com.android.joke.jokeproject.MainFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <fragment
+        android:id="@+id/id_fragment_collection"
+        android:layout_above="@+id/bleow_two_btn"
+        android:name="com.android.joke.jokeproject.CollectionFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+
+</RelativeLayout>  
