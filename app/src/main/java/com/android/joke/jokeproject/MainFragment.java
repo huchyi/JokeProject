@@ -16,6 +16,8 @@ import com.android.joke.jokeproject.common.NetworkUtils;
 import com.android.joke.jokeproject.http.HttpUtils;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class MainFragment extends Fragment {
@@ -62,7 +64,35 @@ public class MainFragment extends Fragment {
 
         HttpUtils.getIntences().MainGetData(new HttpUtils.IbackData() {
             @Override
-            public void onSuccess(String str) {
+            public void onSuccess(BaseBean baseBean) {
+
+                //得到结果
+                ArrayList<BaseBean> data = null;
+                Map<String,Object> map = baseBean.getDataMap();
+                for (int i = 0;i<map.size();i++){
+                    BaseBean bean = (BaseBean) map.get("");
+                    data.add(bean);
+                }
+                listData.addAll(data);
+                //显示结果
+                baseAdapter = new ListBaseAdapter(getActivity(),listData);
+                listview.setAdapter(baseAdapter);
+                // 设置监听器
+                listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                    }
+
+                    @Override
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                        if (firstVisibleItem + visibleItemCount == totalItemCount) {// 判断是否滑至底部
+
+                            //滑到底部后，第二次请求
+
+                        }
+                    }
+                });
 
             }
 
@@ -72,30 +102,6 @@ public class MainFragment extends Fragment {
             }
         });
 
-
-        //得到结果
-
-
-
-        //显示结果
-        baseAdapter = new ListBaseAdapter(getActivity(),listData);
-        listview.setAdapter(baseAdapter);
-        // 设置监听器
-        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem + visibleItemCount == totalItemCount) {// 判断是否滑至底部
-
-                    //滑到底部后，第二次请求
-
-                }
-            }
-        });
 
     }
 

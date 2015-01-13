@@ -287,7 +287,7 @@ public class HttpUtils {
     private  List<String> list;
     private  IbackData mIbackData;
     public interface IbackData{
-        public void onSuccess(String str);
+        public void onSuccess(BaseBean baseBean);
 
         public void onFailure(String str);
     }
@@ -306,10 +306,8 @@ public class HttpUtils {
                         e.printStackTrace();
                     }
                     BaseBean baseBean = new BaseBean(dataJson);
-                    BaseBean bean = (BaseBean) baseBean.get("data");
-                    String result1 = bean.getStr("data");
-                    if(result1 != null){
-                        mIbackData.onSuccess(result1);
+                    if(baseBean != null){
+                        mIbackData.onSuccess(baseBean);
                     }else{
                         mIbackData.onFailure("得到数据失败");
                     }
