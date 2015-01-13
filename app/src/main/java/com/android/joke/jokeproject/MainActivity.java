@@ -80,11 +80,12 @@ public class MainActivity extends Activity implements OnClickListener
 
         switch (v.getId()){
             case R.id.bleow_two_btn_rl_main:
-                // 使用当前Fragment的布局替代id_content的控件
+                // 使用当前Fragment的布局替代bleow_two_btn_rl_collection的控件
                 setDefaultFragment();
 
                 break;
             case R.id.bleow_two_btn_rl_collection:
+                // 使用当前Fragment的布局替代bleow_two_btn_rl_main的控件
                 setOtherFragment();
 
                 break;
