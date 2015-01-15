@@ -29,6 +29,8 @@ public class MainActivity extends Activity implements OnClickListener{
     private  FragmentTransaction transaction;
     private Fragment mContent;
 
+    private boolean firstAdd = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -52,9 +54,9 @@ public class MainActivity extends Activity implements OnClickListener{
     public void switchContent(Fragment from, Fragment to) {
         if (mContent != to) {
             mContent = to;
-            transaction = fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction = fm.beginTransaction();
             if (!to.isAdded()) {    // 先判断是否被add过
-                transaction.hide(from).add(R.id.id_fragment_main , to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+                transaction.hide(from).add(R.id.id_fragment_main , to).commit(); // 隐藏当前的fragment，add下一个到fragment中
             } else {
                 transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
             }
@@ -71,6 +73,11 @@ public class MainActivity extends Activity implements OnClickListener{
         }
         if (collectionFragment == null){
             collectionFragment = new CollectionFragment();
+        }
+        if(firstAdd){
+            firstAdd = false;
+            transaction = fm.beginTransaction();
+            transaction.add(R.id.id_fragment_main , collectionFragment).commit(); // 隐藏当前的fragment，add下一个到fragment中
         }
         switchContent(collectionFragment,mainFragment);
         mTabMainButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg));

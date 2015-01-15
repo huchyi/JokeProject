@@ -14,6 +14,8 @@ import com.android.joke.jokeproject.common.BaseBean;
 import com.android.joke.jokeproject.db.DBHelper;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 public class CollectionFragment extends Fragment {
@@ -54,6 +56,7 @@ public class CollectionFragment extends Fragment {
                 if (audioList == null) {
                     audioList = new ArrayList<>();
                 }
+                Collections.reverse(result);
                 audioList.addAll(result);
                 baseAdapter = new ListBaseAdapter(getActivity(), audioList);
                 listView.setAdapter(baseAdapter);
