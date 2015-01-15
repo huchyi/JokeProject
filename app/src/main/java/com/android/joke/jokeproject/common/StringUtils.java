@@ -10,7 +10,7 @@ public class StringUtils {
 
     /**
      * 判断字符创的内容是否为空
-     * 
+     *
      * @param str
      * @return true,字符串为null 或 ""
      */
@@ -24,7 +24,7 @@ public class StringUtils {
 
     /**
      * 秒数转为 mm:ss的格式
-     * 
+     *
      * @param second 秒
      * @return mm:ss
      */
@@ -50,7 +50,7 @@ public class StringUtils {
 
     /**
      * 判断字符串是否为数字
-     * 
+     *
      * @param str 需要判断的字符串
      * @return true:是字符串；false:不是字符串
      */
@@ -68,7 +68,7 @@ public class StringUtils {
 
     /**
      * 判断字符串是否为正整数或正小数
-     * 
+     *
      * @param str 需要判断的字符串
      * @return true:是字符串；false:不是字符串
      */
@@ -114,6 +114,37 @@ public class StringUtils {
             sb.append(c);
         sb.append(s);
         return sb.toString();
+    }
+
+
+    /** 得到当前的时间 */
+    public static String getNowData(){
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH)+1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        int sc = c.get(Calendar.SECOND);
+        String hourStr;
+        String minuteStr;
+        String scStr;
+        if(hour<10){
+            hourStr = "0"+hour;
+        }else{
+            hourStr = String.valueOf(hour);
+        }
+        if(minute<10){
+            minuteStr = "0"+minute;
+        }else{
+            minuteStr = String.valueOf(minute);
+        }
+        if(sc<10){
+            scStr = "0"+sc;
+        }else{
+            scStr = String.valueOf(sc);
+        }
+        return  year+"/"+month+"/"+day+"  "+hourStr+":"+minuteStr+":"+scStr;
     }
 
 }

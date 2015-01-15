@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -14,6 +15,8 @@ import android.app.FragmentTransaction;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.RelativeLayout;
+
+import com.android.joke.jokeproject.db.DBHelper;
 
 public class MainActivity extends Activity implements OnClickListener{
     private RelativeLayout mTabMainButton;
@@ -49,9 +52,9 @@ public class MainActivity extends Activity implements OnClickListener{
     public void switchContent(Fragment from, Fragment to) {
         if (mContent != to) {
             mContent = to;
-            FragmentTransaction transaction = fm.beginTransaction();
+            transaction = fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             if (!to.isAdded()) {    // 先判断是否被add过
-                transaction.hide(from).add(R.id.id_fragment_main, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+                transaction.hide(from).add(R.id.id_fragment_main , to).commit(); // 隐藏当前的fragment，add下一个到Activity中
             } else {
                 transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
             }
@@ -123,8 +126,8 @@ public class MainActivity extends Activity implements OnClickListener{
             // 设置对话框消息
             isExit.setMessage("确定要退出吗");
             // 添加选择按钮并注册监听
-            isExit.setButton(AlertDialog.BUTTON_POSITIVE,"确定", listener);
-            isExit.setButton(AlertDialog.BUTTON_NEGATIVE,"取消", listener);
+            isExit.setButton(AlertDialog.BUTTON_POSITIVE, "确定", listener);
+            isExit.setButton(AlertDialog.BUTTON_NEGATIVE, "取消", listener);
             // 显示对话框
             isExit.show();
         }
@@ -150,4 +153,9 @@ public class MainActivity extends Activity implements OnClickListener{
     };
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DBHelper.getIntences(this).close();
+    }
 }

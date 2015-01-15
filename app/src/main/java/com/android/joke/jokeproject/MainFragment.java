@@ -1,6 +1,5 @@
 package com.android.joke.jokeproject;
 
-import android.content.DialogInterface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -51,10 +50,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         fragmentView = inflater.inflate(R.layout.fragment_main, container, false);
         listview = (ListView) fragmentView.findViewById(R.id.main_list);
         refreshll = (LinearLayout) fragmentView.findViewById(R.id.refresh);
+        refreshll.setOnClickListener(this);
         loadImg = (ImageView) fragmentView.findViewById(R.id.loadingImageView);
         loadImg.setBackgroundResource(R.drawable.progress_round);
 
-        listData = new ArrayList<BaseBean>();
+        listData = new ArrayList<>();
         requestAudioListFromNet();
 
         return fragmentView;
@@ -96,7 +96,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 //得到结果
                 ArrayList<BaseBean> data = (ArrayList<BaseBean>) baseBean.get("items");
                 listData.addAll(data);
-
                 //显示结果
                 if (baseAdapter == null) {
                     baseAdapter = new ListBaseAdapter(getActivity(), listData);
@@ -105,7 +104,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     listview.setOnScrollListener(new AbsListView.OnScrollListener() {
                         @Override
                         public void onScrollStateChanged(AbsListView view, int scrollState) {
-
                         }
 
                         @Override
