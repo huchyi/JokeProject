@@ -47,17 +47,9 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <fragment
+    <FrameLayout
         android:id="@+id/id_fragment_main"
         android:layout_above="@+id/bleow_two_btn"
-        android:name="com.android.joke.jokeproject.MainFragment"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-
-    <fragment
-        android:id="@+id/id_fragment_collection"
-        android:layout_above="@+id/bleow_two_btn"
-        android:name="com.android.joke.jokeproject.CollectionFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

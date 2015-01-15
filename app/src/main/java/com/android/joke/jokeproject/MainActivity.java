@@ -1,6 +1,10 @@
 package com.android.joke.jokeproject;
 
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 
@@ -11,8 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.RelativeLayout;
 
-public class MainActivity extends Activity implements OnClickListener
-{
+public class MainActivity extends Activity implements OnClickListener{
     private RelativeLayout mTabMainButton;
     private RelativeLayout mTabCollectionButton;
 
@@ -21,6 +24,7 @@ public class MainActivity extends Activity implements OnClickListener
 
     private FragmentManager fm;
     private  FragmentTransaction transaction;
+    private Fragment mContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,8 +39,23 @@ public class MainActivity extends Activity implements OnClickListener
         mTabMainButton.setOnClickListener(this);
         mTabCollectionButton.setOnClickListener(this);
 
+        fm = getFragmentManager();
+        mContent = new Fragment();
+
         // 设置默认的Fragment
         setDefaultFragment();
+    }
+
+    public void switchContent(Fragment from, Fragment to) {
+        if (mContent != to) {
+            mContent = to;
+            FragmentTransaction transaction = fm.beginTransaction();
+            if (!to.isAdded()) {    // 先判断是否被add过
+                transaction.hide(from).add(R.id.id_fragment_main, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            } else {
+                transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+            }
+        }
     }
 
     /**
@@ -44,15 +63,13 @@ public class MainActivity extends Activity implements OnClickListener
      *
      * */
     private void setDefaultFragment(){
-        fm = getFragmentManager();
-        transaction = fm.beginTransaction();
         if (mainFragment == null){
             mainFragment = new MainFragment();
         }
-        transaction.replace(R.id.id_fragment_main, mainFragment);
-        // transaction.addToBackStack();
-        // 事务提交
-        transaction.commitAllowingStateLoss();
+        if (collectionFragment == null){
+            collectionFragment = new CollectionFragment();
+        }
+        switchContent(collectionFragment,mainFragment);
         mTabMainButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg));
         mTabCollectionButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg_while));
     }
@@ -62,18 +79,20 @@ public class MainActivity extends Activity implements OnClickListener
      * 次界面
      * **/
     private void setOtherFragment(){
-        fm = getFragmentManager();
-        transaction = fm.beginTransaction();
+        if (mainFragment == null){
+            mainFragment = new MainFragment();
+        }
         if (collectionFragment == null){
             collectionFragment = new CollectionFragment();
         }
-        transaction.replace(R.id.id_fragment_collection, collectionFragment);
-        // transaction.addToBackStack();
-        // 事务提交
-        transaction.commitAllowingStateLoss();
+        switchContent(mainFragment,collectionFragment);
         mTabMainButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg_while));
         mTabCollectionButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg));
     }
+
+
+
+
 
     @Override
     public void onClick(View v){
@@ -91,5 +110,44 @@ public class MainActivity extends Activity implements OnClickListener
                 break;
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK )
+        {
+            // 创建退出对话框
+            AlertDialog isExit = new AlertDialog.Builder(this).create();
+            // 设置对话框标题
+            isExit.setTitle("系统提示");
+            // 设置对话框消息
+            isExit.setMessage("确定要退出吗");
+            // 添加选择按钮并注册监听
+            isExit.setButton(AlertDialog.BUTTON_POSITIVE,"确定", listener);
+            isExit.setButton(AlertDialog.BUTTON_NEGATIVE,"取消", listener);
+            // 显示对话框
+            isExit.show();
+        }
+        return false;
+    }
+
+    /**监听对话框里面的button点击事件*/
+    DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener()
+    {
+        public void onClick(DialogInterface dialog, int which)
+        {
+            switch (which)
+            {
+                case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
+                    finish();
+                    break;
+                case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
 
 }

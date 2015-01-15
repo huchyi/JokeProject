@@ -55,8 +55,8 @@ public class ListBaseAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         final BaseBean bean = mList.get(position);
-        String contentStr = bean.getStr("");
-        String timeStr = bean.getStr("");
+        String contentStr = bean.getStr("intor");
+        String timeStr = bean.getStr("ptime");
         if(contentStr != null && timeStr != null){
             holder.cotentTv.setText(contentStr);
             holder.timeTv.setText(timeStr);

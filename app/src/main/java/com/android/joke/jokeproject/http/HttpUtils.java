@@ -51,6 +51,65 @@ import android.util.Log;
 import com.android.joke.jokeproject.common.BaseBean;
 import com.android.joke.jokeproject.common.StringUtils;
 
+
+
+
+//请求头：Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+//Accept-Encoding: gzip,deflate,sdch
+//        Accept-Language: zh-CN,zh;q=0.8,en;q=0.6
+//       User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko)
+//       Chrome/36.0.1985.143 Safari/537.36
+/**
+ *
+ * GET请求 :
+
+ http://pengfu.junpinzhi.cn/mobileClientV21.ashx?
+ client=android&version=1.2&key=111&PageIndex=1
+
+ ？     %3F
+
+ &      %26
+
+ |      %124
+
+ =     %3D
+
+ #     %23
+
+ /      %2F
+
+ +     %2B
+
+ %    %25
+
+ 空格  %20
+
+
+ 参数
+ key ： 111（全部图片，文字混合）；112（纯文本）；113（纯图片）
+ PageIndex： 1 （请求的分页）
+
+ result：true 为返回成功
+ message：successfull成功
+ body: 体json
+ ---pagecount 分页计数
+ ---pagesize 每页条数
+ ---pageindex 当前页数
+ ---items 为json
+ ------hid 唯一的id
+ ------htitle 内容
+ ------rcount
+ ------dcount
+ ------ptime 时间
+ ------pusername 作者
+ ------ispic
+ ------intor
+ ------image 图片json,如果没有如片则为空
+ -----------purl 图片的url地址
+ -----------ptitle 图片的标题
+ *
+ *
+ * ****/
 public class HttpUtils {
     private static final int CONNECTION_TIMEOUT = 10000;
 
@@ -260,17 +319,18 @@ public class HttpUtils {
      *
      * 请求数据，
      * */
-    public  void MainGetData(IbackData IbackData){
+    public  void MainGetData(final int count ,IbackData IbackData){
         mIbackData = IbackData;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     //请求后返回json数据
-                    String result = doHttpsPost("","");
+                    String pathStr = "http://pengfu.junpinzhi.cn/mobileClientV21.ashx?client=android&version=1.2&key=112&PageIndex="+count;
+                    String result = doHttpGet(pathStr);
                     if(!StringUtils.isNullOrNullStr(result)){
                         Message msg = new Message();
-                        msg.obj = "";
+                        msg.obj = result;
                         msg.what = 1;
                         mHandler.sendMessage(msg);
                     }else{
@@ -293,23 +353,24 @@ public class HttpUtils {
     }
 
     @SuppressLint("HandlerLeak")
-    private    Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    JSONObject dataJson = null;
                     try {
-                        dataJson = new JSONObject(String.valueOf(msg.obj));
+                        JSONObject dataJson = new JSONObject( String.valueOf(msg.obj));
+                        BaseBean baseBean = new BaseBean(dataJson);
+                        String message = baseBean.getStr("message");
+                        BaseBean bean = (BaseBean) baseBean.get("body");
+                        if("successfull".equals(message)){
+                            mIbackData.onSuccess(bean);
+                        }else{
+                            mIbackData.onFailure("得到数据失败");
+                        }
                     } catch (JSONException e) {
                         mIbackData.onFailure("解析数据数据失败");
                         e.printStackTrace();
-                    }
-                    BaseBean baseBean = new BaseBean(dataJson);
-                    if(baseBean != null){
-                        mIbackData.onSuccess(baseBean);
-                    }else{
-                        mIbackData.onFailure("得到数据失败");
                     }
                     break;
                 case 2:
