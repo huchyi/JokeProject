@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 import com.android.joke.jokeproject.common.BaseBean;
@@ -52,7 +53,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param  map 集合
      * */
     public void insert(Map<String,String> map) {
-        if(map == null){
+        if(map == null || !db.isOpen()){
             return;
         }
         ContentValues values = new ContentValues();
@@ -73,7 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /** 从表中删除指定的一条数据 */
     public void del(String nameid) {
-        if (db == null){
+        if (db == null || !db.isOpen()){
             db = getWritableDatabase();
         }
         db.delete(TBL_NAME, "name_id=?", new String[] { String.valueOf(nameid) });
@@ -83,19 +84,21 @@ public class DBHelper extends SQLiteOpenHelper {
      * 获取记录
      */
     public ArrayList<BaseBean> getDataList() {
-        if (db == null){
+        if (db == null || !db.isOpen()){
             db = getWritableDatabase();
         }
         Cursor cursor = db.rawQuery("select * from " + TBL_NAME,
                 null);
-        ArrayList<BaseBean> list = new ArrayList<BaseBean>();
+        ArrayList<BaseBean> list = new ArrayList<>();
         try {
-            while (cursor.moveToNext()) {
-                BaseBean bean = new BaseBean();
-                bean.set("hid",cursor.getString(cursor.getColumnIndex("name_id")));
-                bean.set("ptime",cursor.getString(cursor.getColumnIndex("time")));
-                bean.set("intor",cursor.getString(cursor.getColumnIndex("name")));
-                list.add(bean);
+            if(cursor.getCount() > 0){
+                while (cursor.moveToNext()) {
+                    BaseBean bean = new BaseBean();
+                    bean.set("hid",cursor.getString(cursor.getColumnIndex("name_id")));
+                    bean.set("ptime",cursor.getString(cursor.getColumnIndex("time")));
+                    bean.set("intor",cursor.getString(cursor.getColumnIndex("name")));
+                    list.add(bean);
+                }
             }
         } catch (IllegalStateException e2) {
             e2.printStackTrace();
@@ -109,7 +112,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**某条记录是否存在*/
     public synchronized boolean isExits(String name_id) {
         boolean isexit = false;
-        if (db == null){
+        if (db == null || !db.isOpen()){
             db = getWritableDatabase();
         }
         Cursor cursor = db.query(TBL_NAME, null, "name_id=?",
@@ -124,8 +127,9 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void close() {
-        if (db != null)
+        if (db != null){
             db.close();
+        }
     }
 
 }

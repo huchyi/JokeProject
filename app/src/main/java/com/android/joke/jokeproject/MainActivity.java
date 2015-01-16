@@ -156,5 +156,8 @@ public class MainActivity extends Activity implements OnClickListener{
     protected void onDestroy() {
         super.onDestroy();
         DBHelper.getIntences(this).close();
+        System.exit(0);//直接结束程序
+        //或者下面这种方式
+        //android.os.Process.killProcess(android.os.Process.myPid());
     }
 }

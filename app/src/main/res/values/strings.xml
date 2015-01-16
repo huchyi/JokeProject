@@ -7,6 +7,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="method_url_to_get_data">http://pengfu.junpinzhi.cn/mobileClientV21.ashx?client=android&amp;version=1.2&amp;key=112&amp;PageIndex=</string>
-
+    <string name="welcome_activity_str">喵~喵~\n生活一直很美好</string>
 
 </resources>

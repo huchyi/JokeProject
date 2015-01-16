@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.joke.jokeproject.adapter.ListBaseAdapter;
@@ -22,6 +23,7 @@ public class CollectionFragment extends Fragment {
     private View fragmentView;
 
     private ListView listView;
+    private TextView noDataTV;
 
     private ListBaseAdapter baseAdapter;
     private ArrayList<BaseBean> audioList;
@@ -36,6 +38,7 @@ public class CollectionFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.fragment_collection, container, false);
         listView = (ListView) fragmentView.findViewById(R.id.collection_list);
+        noDataTV = (TextView) fragmentView.findViewById(R.id.collection_list_no_data);
         new ListFromDBTask().execute();
         return fragmentView;
     }
@@ -58,7 +61,7 @@ public class CollectionFragment extends Fragment {
                 baseAdapter = new ListBaseAdapter(getActivity(), audioList);
                 listView.setAdapter(baseAdapter);
             }else{
-                Toast.makeText(getActivity(), "获取失败", Toast.LENGTH_SHORT).show();
+                noDataTV.setVisibility(View.VISIBLE);
             }
             super.onPostExecute(result);
         }
