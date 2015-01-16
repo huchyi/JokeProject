@@ -1,6 +1,5 @@
 package com.android.joke.jokeproject;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -8,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.joke.jokeproject.adapter.ListBaseAdapter;
 import com.android.joke.jokeproject.common.BaseBean;
 import com.android.joke.jokeproject.db.DBHelper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 
@@ -25,7 +24,6 @@ public class CollectionFragment extends Fragment {
     private ListView listView;
 
     private ListBaseAdapter baseAdapter;
-    private ProgressDialog progressDialog;
     private ArrayList<BaseBean> audioList;
 
     @Override
@@ -38,7 +36,6 @@ public class CollectionFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.fragment_collection, container, false);
         listView = (ListView) fragmentView.findViewById(R.id.collection_list);
-        progressDialog = ProgressDialog.show(getActivity(), null, null, true, false);
         new ListFromDBTask().execute();
         return fragmentView;
     }
@@ -60,8 +57,9 @@ public class CollectionFragment extends Fragment {
                 audioList.addAll(result);
                 baseAdapter = new ListBaseAdapter(getActivity(), audioList);
                 listView.setAdapter(baseAdapter);
+            }else{
+                Toast.makeText(getActivity(), "获取失败", Toast.LENGTH_SHORT).show();
             }
-            progressDialog.dismiss();
             super.onPostExecute(result);
         }
     }

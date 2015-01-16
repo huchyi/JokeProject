@@ -29,7 +29,7 @@ public class MainActivity extends Activity implements OnClickListener{
     private  FragmentTransaction transaction;
     private Fragment mContent;
 
-    private boolean firstAdd = true;
+    private boolean isFirstAdd = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,10 +43,7 @@ public class MainActivity extends Activity implements OnClickListener{
         mTabCollectionButton = (RelativeLayout) findViewById(R.id.bleow_two_btn_rl_collection);
         mTabMainButton.setOnClickListener(this);
         mTabCollectionButton.setOnClickListener(this);
-
         fm = getFragmentManager();
-        mContent = new Fragment();
-
         // 设置默认的Fragment
         setDefaultFragment();
     }
@@ -74,8 +71,9 @@ public class MainActivity extends Activity implements OnClickListener{
         if (collectionFragment == null){
             collectionFragment = new CollectionFragment();
         }
-        if(firstAdd){
-            firstAdd = false;
+        if(isFirstAdd){
+            isFirstAdd = false;
+            mContent = new CollectionFragment();
             transaction = fm.beginTransaction();
             transaction.add(R.id.id_fragment_main , collectionFragment).commit(); // 隐藏当前的fragment，add下一个到fragment中
         }
@@ -100,10 +98,6 @@ public class MainActivity extends Activity implements OnClickListener{
         mTabCollectionButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg));
     }
 
-
-
-
-
     @Override
     public void onClick(View v){
 
@@ -111,12 +105,10 @@ public class MainActivity extends Activity implements OnClickListener{
             case R.id.bleow_two_btn_rl_main:
                 // 使用当前Fragment的布局替代bleow_two_btn_rl_collection的控件
                 setDefaultFragment();
-
                 break;
             case R.id.bleow_two_btn_rl_collection:
                 // 使用当前Fragment的布局替代bleow_two_btn_rl_main的控件
                 setOtherFragment();
-
                 break;
         }
     }
@@ -129,9 +121,9 @@ public class MainActivity extends Activity implements OnClickListener{
             // 创建退出对话框
             AlertDialog isExit = new AlertDialog.Builder(this).create();
             // 设置对话框标题
-            isExit.setTitle("系统提示");
+            // isExit.setTitle("提示");
             // 设置对话框消息
-            isExit.setMessage("确定要退出吗");
+            isExit.setMessage("确定要退出吗?");
             // 添加选择按钮并注册监听
             isExit.setButton(AlertDialog.BUTTON_POSITIVE, "确定", listener);
             isExit.setButton(AlertDialog.BUTTON_NEGATIVE, "取消", listener);

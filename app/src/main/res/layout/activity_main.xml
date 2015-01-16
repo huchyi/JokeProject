@@ -14,7 +14,7 @@
         <RelativeLayout
             android:id="@+id/bleow_two_btn_rl_main"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:paddingTop="@dimen/abc_dropdownitem_text_padding_right"
             android:paddingBottom="@dimen/abc_dropdownitem_text_padding_right"
             android:background="@color/bottom_bg"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:contentDescription="null"
-                android:background="@drawable/main_blow_colection_pager_img"
+                android:background="@drawable/main__blow_collection_img"
                 />
         </RelativeLayout>
     </LinearLayout>
