@@ -86,7 +86,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }
         //参数的拼装和请求
         LoadStart();
-        HttpUtils.getIntences().MainGetData(mCount, new HttpUtils.IbackData() {
+        HttpUtils.getIntences().MainGetData(getActivity(),mCount, new HttpUtils.IbackData() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadStop();

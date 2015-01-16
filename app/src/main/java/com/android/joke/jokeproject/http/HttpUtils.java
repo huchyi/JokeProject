@@ -42,12 +42,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.android.joke.jokeproject.R;
 import com.android.joke.jokeproject.common.BaseBean;
 import com.android.joke.jokeproject.common.StringUtils;
 
@@ -319,14 +321,14 @@ public class HttpUtils {
      *
      * 请求数据，
      * */
-    public  void MainGetData(final int count ,IbackData IbackData){
+    public  void MainGetData(final Context context,final int count ,IbackData IbackData){
         mIbackData = IbackData;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     //请求后返回json数据
-                    String pathStr = "http://pengfu.junpinzhi.cn/mobileClientV21.ashx?client=android&version=1.2&key=112&PageIndex="+count;
+                    String pathStr = context.getResources().getString(R.string.method_url_to_get_data)+count;
                     String result = doHttpGet(pathStr);
                     if(!StringUtils.isNullOrNullStr(result)){
                         Message msg = new Message();
