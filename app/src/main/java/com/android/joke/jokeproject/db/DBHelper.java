@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 
 import com.android.joke.jokeproject.common.BaseBean;
@@ -15,17 +14,23 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class DBHelper extends SQLiteOpenHelper {
+
+    public static final int DB_VERSION = 1;
     private static final String DB_NAME = "collection.db";
     private static final String TBL_NAME = "collection_name";
     private static final String CREATE_TBL = " create table "+TBL_NAME+"("
             +"_id integer primary key autoincrement,"
-            +"name_id VARCHAR(255),"
-            +"time VARCHAR(255),"
-            +"name text);";
+            +"hid VARCHAR(255),"
+            +"htitle VARCHAR(255),"
+            +"ptime VARCHAR(255),"
+            +"ispic VARCHAR(255),"
+            +"intor text,"
+            +"purl VARCHAR(255),"
+            +"ptitle text);";
 
     private static SQLiteDatabase db;
     DBHelper(Context c) {
-        super(c, DB_NAME, null, 1);
+        super(c, DB_NAME, null, DB_VERSION);
         db = getWritableDatabase();
     }
 
@@ -45,6 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
     }
 
     /**
@@ -77,13 +83,21 @@ public class DBHelper extends SQLiteOpenHelper {
         if (db == null || !db.isOpen()){
             db = getWritableDatabase();
         }
-        db.delete(TBL_NAME, "name_id=?", new String[] { String.valueOf(nameid) });
+        db.delete(TBL_NAME, "hid=?", new String[] { String.valueOf(nameid) });
     }
 
     /**
-     * 获取记录
+     * 获取记录,
+     * @param mType
+     *      0 纯文本   1 纯图片。
+     *
+     * return ArrayList<BaseBean>
+     *      数据列表
      */
-    public ArrayList<BaseBean> getDataList() {
+    public ArrayList<BaseBean> getDataList(String mType) {
+        if(mType == null){
+            return null;
+        }
         if (db == null || !db.isOpen()){
             db = getWritableDatabase();
         }
@@ -93,11 +107,18 @@ public class DBHelper extends SQLiteOpenHelper {
         try {
             if(cursor.getCount() > 0){
                 while (cursor.moveToNext()) {
-                    BaseBean bean = new BaseBean();
-                    bean.set("hid",cursor.getString(cursor.getColumnIndex("name_id")));
-                    bean.set("ptime",cursor.getString(cursor.getColumnIndex("time")));
-                    bean.set("intor",cursor.getString(cursor.getColumnIndex("name")));
-                    list.add(bean);
+                    String type = cursor.getString(cursor.getColumnIndex("ispic"));
+                    if(mType.equals(type)){
+                        BaseBean bean = new BaseBean();
+                        bean.set("hid",cursor.getString(cursor.getColumnIndex("hid")));
+                        bean.set("htitle",cursor.getString(cursor.getColumnIndex("htitle")));
+                        bean.set("ispic",type);
+                        bean.set("ptime",cursor.getString(cursor.getColumnIndex("ptime")));
+                        bean.set("intor",cursor.getString(cursor.getColumnIndex("intor")));
+                        bean.set("purl",cursor.getString(cursor.getColumnIndex("purl")));
+                        bean.set("ptitle",cursor.getString(cursor.getColumnIndex("ptitle")));
+                        list.add(bean);
+                    }
                 }
             }
         } catch (IllegalStateException e2) {
@@ -109,13 +130,19 @@ public class DBHelper extends SQLiteOpenHelper {
         return list;
     }
 
+
+
+
+
+
+
     /**某条记录是否存在*/
     public synchronized boolean isExits(String name_id) {
         boolean isexit = false;
         if (db == null || !db.isOpen()){
             db = getWritableDatabase();
         }
-        Cursor cursor = db.query(TBL_NAME, null, "name_id=?",
+        Cursor cursor = db.query(TBL_NAME, null, "hid=?",
                 new String[] { name_id }, null, null, null, null);
         if (cursor.getCount() > 0) {
             isexit = true;
@@ -125,6 +152,24 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return isexit;
     }
+
+
+    /**
+     * table的判断
+     * */
+    public static boolean isExitColum(SQLiteDatabase db, String table, String colum) {
+        boolean isExit = true;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + table + " LIMIT 0", null);
+        int columnIndex = cursor.getColumnIndex(colum);
+        if (columnIndex == -1) {
+            isExit = false;
+        }
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return isExit;
+    }
+
 
     public void close() {
         if (db != null){

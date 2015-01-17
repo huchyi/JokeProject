@@ -47,7 +47,7 @@ public class CollectionFragment extends Fragment {
         @Override
         protected ArrayList<BaseBean> doInBackground(Void... arg0) {
             // 从数据库获取数据
-            return DBHelper.getIntences(getActivity()).getDataList();
+            return DBHelper.getIntences(getActivity()).getDataList("0");
         }
 
         @Override
