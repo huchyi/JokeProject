@@ -18,7 +18,7 @@ public class NetworkUtils {
      * 获取当前网络连接的类型信息
      * 
      * @param context
-     * @return 返回类型为1,ConnectivityManager.TYPE_MOBILE; 2,ConnectivityManager.TYPE_WIFI;
+     * @return 返回类型为0,ConnectivityManager.TYPE_MOBILE; 2,ConnectivityManager.TYPE_WIFI;
      */
 
     public static int getConnectedType(Context context) {
@@ -26,7 +26,7 @@ public class NetworkUtils {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
             if (mNetworkInfo != null && mNetworkInfo.isConnected()) {
-                return mNetworkInfo.getType();// 返回类型为1,ConnectivityManager.TYPE_MOBILE;
+                return mNetworkInfo.getType();// 返回类型为0,ConnectivityManager.TYPE_MOBILE;
                                               // 2,ConnectivityManager.TYPE_WIFI;
             }
         }

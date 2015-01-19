@@ -26,7 +26,6 @@ public class ImageListAdapter extends BaseAdapter{
     private ArrayList<BaseBean> mList ;
     private Context mContext;
     private DisplayImageOptions posterAudioImgOptions;
-    private CustomDialog mCustomDialog;
 
     public ImageListAdapter(Context context , ArrayList<BaseBean> list){
         this.mList = list;
@@ -70,9 +69,9 @@ public class ImageListAdapter extends BaseAdapter{
         final BaseBean bean = mList.get(position);
         final String contentStr = bean.getStr("intor");
         String timeStr = bean.getStr("ptime");
-        final String id = bean.getStr("hid");
+        //final String id = bean.getStr("hid");
         final String title = bean.getStr("htitle");
-        final String type = bean.getStr("ispic");
+        // final String type = bean.getStr("ispic");
         final ArrayList<BaseBean> listImg = (ArrayList<BaseBean>) bean.get("image");
         if(title != null){
             holder.title.setText(title);
@@ -87,19 +86,15 @@ public class ImageListAdapter extends BaseAdapter{
         String urlStr;
         if(listImg !=null && listImg.size()>0){
             urlStr = listImg.get(0).getStr("purl");
-            if(urlStr != null){
-                ImageLoader.getInstance().displayImage(urlStr,holder.contenImage,posterAudioImgOptions);
-                if(listImg.size() > 1){
-                    holder.loadMore.setVisibility(View.VISIBLE);
-                    holder.loadMore.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            toViewMoreImage(listImg);
-                        }
-                    });
-                }else{
-                    holder.loadMore.setVisibility(View.GONE);
-                }
+            ImageLoader.getInstance().displayImage(urlStr,holder.contenImage,posterAudioImgOptions);
+            if(listImg.size() > 1){
+                holder.loadMore.setVisibility(View.VISIBLE);
+                holder.loadMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toViewMoreImage(listImg);
+                    }
+                });
             }else{
                 holder.loadMore.setVisibility(View.GONE);
             }
@@ -147,7 +142,7 @@ public class ImageListAdapter extends BaseAdapter{
     }
 
     public void toViewMoreImage(ArrayList<BaseBean> listImgBean){
-        mCustomDialog = new CustomDialog(mContext,R.style.Dialog_Fullscreen,listImgBean);
+        final CustomDialog mCustomDialog = new CustomDialog(mContext,R.style.Dialog_Fullscreen,listImgBean);
         mCustomDialog.setClicklistener(new CustomDialog.ClickListenerInterface() {
             @Override
             public void doDismissDialog() {

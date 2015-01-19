@@ -1,6 +1,7 @@
 package com.android.joke.jokeproject;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.RelativeLayout;
 
+import com.android.joke.jokeproject.common.NetworkUtils;
 import com.android.joke.jokeproject.db.DBHelper;
 
 public class MainActivity extends Activity implements OnClickListener{
@@ -136,7 +138,37 @@ public class MainActivity extends Activity implements OnClickListener{
                 setOtherFragment();
                 break;
             case R.id.bleow_two_btn_rl_imageload:
-                setImageLoadFragment();
+                int netType = NetworkUtils.getConnectedType(MainActivity.this);
+                if(netType == 0){//数据流量
+                    new AlertDialog.Builder(this)
+                            .setTitle("提示")
+                            .setMessage("当前网络为数据流量，非WIFI环境，确定打开吗？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    setImageLoadFragment();
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // TODO Auto-generated method stub
+                                }
+                            })
+                            .create()
+                            .show();
+
+                }else{
+                    setImageLoadFragment();
+                }
+                /*if(netType == -1){ // 无网络
+
+                }else*/ /*else if(netType == 2){//wifi
+
+                }*/
+
                 break;
         }
     }
