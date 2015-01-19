@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.android.joke.jokeproject.adapter.ListBaseAdapter;
 import com.android.joke.jokeproject.common.BaseBean;
+import com.android.joke.jokeproject.common.Constant;
 import com.android.joke.jokeproject.common.NetworkUtils;
 import com.android.joke.jokeproject.http.HttpUtils;
 
@@ -86,7 +87,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }
         //参数的拼装和请求
         LoadStart();
-        HttpUtils.getIntences().MainGetData(getActivity(),mCount, new HttpUtils.IbackData() {
+        HttpUtils.getIntences().MainGetData(getActivity(), Constant.get_text_data,mCount, new HttpUtils.IbackData() {
             @Override
             public void onSuccess(BaseBean baseBean) {
                 LoadStop();

@@ -95,6 +95,8 @@ public class ListBaseAdapter extends BaseAdapter {
                     map.put("ispic", type);
                     map.put("ptime", StringUtils.getNowData());
                     map.put("intor", contentStr);
+                    map.put("purl", "");
+                    map.put("ptitle", "");
                     DBHelper.getIntences(mContext).insert(map);
                     holder.collection.setImageResource(R.drawable.collection_img);
                 }

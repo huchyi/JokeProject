@@ -21,8 +21,10 @@ import com.android.joke.jokeproject.db.DBHelper;
 public class MainActivity extends Activity implements OnClickListener{
     private RelativeLayout mTabMainButton;
     private RelativeLayout mTabCollectionButton;
+    private RelativeLayout mTabImageLoadButton;
 
     private MainFragment mainFragment;
+    private ImageFragment imageFragment;
     private CollectionFragment collectionFragment;
 
     private FragmentManager fm;
@@ -40,12 +42,30 @@ public class MainActivity extends Activity implements OnClickListener{
 
         // 初始化控件和声明事件
         mTabMainButton = (RelativeLayout) findViewById(R.id.bleow_two_btn_rl_main);
+        mTabImageLoadButton = (RelativeLayout) findViewById(R.id.bleow_two_btn_rl_imageload);
         mTabCollectionButton = (RelativeLayout) findViewById(R.id.bleow_two_btn_rl_collection);
         mTabMainButton.setOnClickListener(this);
+        mTabImageLoadButton.setOnClickListener(this);
         mTabCollectionButton.setOnClickListener(this);
         fm = getFragmentManager();
         // 设置默认的Fragment
         setDefaultFragment();
+    }
+
+
+
+    public void FragmentCanNotNull(){
+
+        if (mainFragment == null){
+            mainFragment = new MainFragment();
+        }
+        if (collectionFragment == null){
+            collectionFragment = new CollectionFragment();
+        }
+        if (imageFragment == null){
+            imageFragment = new ImageFragment();
+        }
+
     }
 
     public void switchContent(Fragment from, Fragment to) {
@@ -65,36 +85,41 @@ public class MainActivity extends Activity implements OnClickListener{
      *
      * */
     private void setDefaultFragment(){
-        if (mainFragment == null){
-            mainFragment = new MainFragment();
-        }
-        if (collectionFragment == null){
-            collectionFragment = new CollectionFragment();
-        }
+
+        FragmentCanNotNull();
+
         if(isFirstAdd){
             isFirstAdd = false;
             mContent = new CollectionFragment();
             transaction = fm.beginTransaction();
             transaction.add(R.id.id_fragment_main , collectionFragment).commit(); // 隐藏当前的fragment，add下一个到fragment中
         }
-        switchContent(collectionFragment,mainFragment);
+        switchContent(mContent,mainFragment);
         mTabMainButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg));
+        mTabImageLoadButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg_while));
         mTabCollectionButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg_while));
     }
 
 
     /**
-     * 次界面
+     * 图片加载界面
+     * **/
+    private void setImageLoadFragment(){
+        FragmentCanNotNull();
+        switchContent(mContent,imageFragment);
+        mTabMainButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg_while));
+        mTabImageLoadButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg));
+        mTabCollectionButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg_while));
+    }
+
+    /**
+     * 收藏界面
      * **/
     private void setOtherFragment(){
-        if (mainFragment == null){
-            mainFragment = new MainFragment();
-        }
-        if (collectionFragment == null){
-            collectionFragment = new CollectionFragment();
-        }
-        switchContent(mainFragment,collectionFragment);
+        FragmentCanNotNull();
+        switchContent(mContent,collectionFragment);
         mTabMainButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg_while));
+        mTabImageLoadButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg_while));
         mTabCollectionButton.setBackgroundColor(getResources().getColor(R.color.bottom_bg));
     }
 
@@ -109,6 +134,9 @@ public class MainActivity extends Activity implements OnClickListener{
             case R.id.bleow_two_btn_rl_collection:
                 // 使用当前Fragment的布局替代bleow_two_btn_rl_main的控件
                 setOtherFragment();
+                break;
+            case R.id.bleow_two_btn_rl_imageload:
+                setImageLoadFragment();
                 break;
         }
     }

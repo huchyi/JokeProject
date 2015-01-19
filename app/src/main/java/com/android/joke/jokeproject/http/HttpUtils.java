@@ -321,14 +321,14 @@ public class HttpUtils {
      *
      * 请求数据，
      * */
-    public  void MainGetData(final Context context,final int count ,IbackData IbackData){
+    public  void MainGetData(final Context context, final String whichData , final int count ,IbackData IbackData){
         mIbackData = IbackData;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     //请求后返回json数据
-                    String pathStr = context.getResources().getString(R.string.method_url_to_get_data)+count;
+                    String pathStr = context.getResources().getString(R.string.method_url_to_get_data)+whichData+"&PageIndex="+count;
                     String result = doHttpGet(pathStr);
                     if(!StringUtils.isNullOrNullStr(result)){
                         Message msg = new Message();

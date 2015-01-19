@@ -15,8 +15,8 @@
             android:id="@+id/bleow_two_btn_rl_main"
             android:layout_width="0dip"
             android:layout_height="fill_parent"
-            android:paddingTop="@dimen/abc_dropdownitem_text_padding_right"
-            android:paddingBottom="@dimen/abc_dropdownitem_text_padding_right"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
             android:background="@color/bottom_bg"
             android:layout_weight="1">
 
@@ -30,11 +30,27 @@
                 />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/bleow_two_btn_rl_imageload"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dip"
+            android:paddingBottom="3dip"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/bleow_two_btn_imageload_pager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:contentDescription="null"
+                android:background="@drawable/main_blow_imageload_pager_img"
+                />
+        </RelativeLayout>
+        <RelativeLayout
             android:id="@+id/bleow_two_btn_rl_collection"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/abc_dropdownitem_text_padding_right"
-            android:paddingBottom="@dimen/abc_dropdownitem_text_padding_right"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/bleow_two_btn_collection_pager"

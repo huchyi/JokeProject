@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 import com.android.joke.jokeproject.common.BaseBean;
@@ -115,8 +116,8 @@ public class DBHelper extends SQLiteOpenHelper {
                         bean.set("ispic",type);
                         bean.set("ptime",cursor.getString(cursor.getColumnIndex("ptime")));
                         bean.set("intor",cursor.getString(cursor.getColumnIndex("intor")));
-                        bean.set("purl",cursor.getString(cursor.getColumnIndex("purl")));
-                        bean.set("ptitle",cursor.getString(cursor.getColumnIndex("ptitle")));
+                       // bean.set("purl",cursor.getString(cursor.getColumnIndex("purl")));
+                        //bean.set("ptitle",cursor.getString(cursor.getColumnIndex("ptitle")));
                         list.add(bean);
                     }
                 }

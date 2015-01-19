@@ -15,6 +15,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import java.io.File;
 
@@ -75,6 +76,7 @@ public class ImageUtils {
             configBuidler.denyCacheImageMultipleSizesInMemory();// 当同一个Uri获取不同大小的图片，缓存到内存时，只缓存一个。不这是默认会缓存多个不同的大小的相同图片
             configBuidler.tasksProcessingOrder(QueueProcessingType.FIFO);// 设置图片下载和显示的工作队列排序
             configBuidler.defaultDisplayImageOptions(defaultDisplayImageOptions);// 设置默认的DisplayImageOptions
+            configBuidler.imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000));
             if (cacheDir != null && cacheDir.exists()) {
                 configBuidler.discCache(new UnlimitedDiscCache(cacheDir));// 使用无限制缓存，设置缓存位置，文件缓存规则
             } else {
@@ -156,17 +158,5 @@ public class ImageUtils {
     public static void clearDiscCache() {
         ImageLoader.getInstance().clearDiscCache();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

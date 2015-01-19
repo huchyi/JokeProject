@@ -5,5 +5,6 @@
     <color name="bottom_bg">#ffa6dbe4</color>
     <color name="bottom_bg_while">#ffffffff</color>
     <color name="main_fragment_bg_while">#fff8f3d1</color>
+    <color name="back_text_color">#ff11bcef</color>
 
 </resources>
