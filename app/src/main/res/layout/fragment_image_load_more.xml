@@ -13,7 +13,7 @@
         android:drawableLeft="@drawable/loading_iamge_back"
         android:background="@color/bottom_bg_while"
         android:text="返回"
-        android:gravity="right|center_vertical"
+        android:gravity="left|center_vertical"
         android:textSize="23dip"
         android:textColor="@color/back_text_color"/>
 
