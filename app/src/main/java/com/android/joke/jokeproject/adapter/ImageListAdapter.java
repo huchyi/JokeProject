@@ -1,6 +1,8 @@
 package com.android.joke.jokeproject.adapter;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,11 @@ import com.android.joke.jokeproject.common.StringUtils;
 import com.android.joke.jokeproject.dailog.CustomDialog;
 import com.android.joke.jokeproject.db.DBHelper;
 import com.android.joke.jokeproject.utils.ImageUtils;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -58,7 +65,7 @@ public class ImageListAdapter extends BaseAdapter{
                     R.layout.fragment_image_list_adapter, parent, false);
             holder.title = (TextView) convertView.findViewById(R.id.list_tv_title);
             holder.cotentTv = (TextView) convertView.findViewById(R.id.list_tv);
-            holder.contenImage = (ImageView) convertView.findViewById(R.id.fragment_list_image_content);
+            holder.mSimpleDraweeView = (SimpleDraweeView) convertView.findViewById(R.id.fragment_list_image_content);
             holder.loadMore = (TextView) convertView.findViewById(R.id.list_tv_tip);
             holder.timeTv = (TextView) convertView.findViewById(R.id.list_time_tv);
             holder.collection = (ImageView) convertView.findViewById(R.id.list_item_collection_img);
@@ -86,7 +93,15 @@ public class ImageListAdapter extends BaseAdapter{
         String urlStr;
         if(listImg !=null && listImg.size()>0){
             urlStr = listImg.get(0).getStr("purl");
-            ImageLoader.getInstance().displayImage(urlStr,holder.contenImage,posterAudioImgOptions);
+            //ImageLoader.getInstance().displayImage(urlStr,holder.mSimpleDraweeView,posterAudioImgOptions);
+            Log.i("hcy","url:"+urlStr);
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(urlStr)).build();
+            DraweeController controller = Fresco.newDraweeControllerBuilder()
+                    .setImageRequest(request)
+                    .setAutoPlayAnimations(true)
+                    .build();
+            holder.mSimpleDraweeView.setController(controller);
+
             if(listImg.size() > 1){
                 holder.loadMore.setVisibility(View.VISIBLE);
                 holder.loadMore.setOnClickListener(new View.OnClickListener() {
@@ -101,43 +116,6 @@ public class ImageListAdapter extends BaseAdapter{
         }else{
             holder.loadMore.setVisibility(View.GONE);
         }
-        /*if(DBHelper.getIntences(mContext).isExits(id)){
-            holder.collection.setImageResource(R.drawable.collection_img);
-        }else{
-            holder.collection.setImageResource(R.drawable.uncollection_img);
-        }
-        holder.collection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(DBHelper.getIntences(mContext).isExits(id)){
-                    //如果存在，则删除，
-                    DBHelper.getIntences(mContext).del(id);
-                    holder.collection.setImageResource(R.drawable.uncollection_img);
-                    Toast.makeText(mContext, "取消收藏", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(mContext, "已收藏", Toast.LENGTH_SHORT).show();
-                    Map<String,String> map = new HashMap<>();
-                    map.put("hid", id);
-                    map.put("htitle", title);
-                    map.put("ispic", type);
-                    map.put("ptime", StringUtils.getNowData());
-                    map.put("intor", contentStr);
-                    StringBuilder purl = new StringBuilder();
-                    StringBuilder ptitle = new StringBuilder();
-                    for (int i=0;i< listImg.size();i++){
-                        BaseBean beanl = listImg.get(i);
-                        purl.append(beanl.getStr("purl")).append(";;");
-                        ptitle.append(beanl.getStr("ptitle")).append(";;");
-                    }
-                    purl.delete(purl.length()-2,purl.length());
-                    ptitle.delete(ptitle.length()-2,ptitle.length());
-                    map.put("purl", purl.toString());
-                    map.put("ptitle", ptitle.toString());
-                    DBHelper.getIntences(mContext).insert(map);
-                    holder.collection.setImageResource(R.drawable.collection_img);
-                }
-            }
-        });*/
         return convertView;
     }
 
@@ -155,7 +133,7 @@ public class ImageListAdapter extends BaseAdapter{
     private class ViewHolder {
         TextView title;//标题
         TextView cotentTv;//内容
-        ImageView contenImage;
+        SimpleDraweeView mSimpleDraweeView;
         TextView loadMore;//内容
 
         TextView timeTv;//时间

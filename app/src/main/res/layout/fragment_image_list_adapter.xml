@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -49,13 +50,39 @@
             android:textIsSelectable="true"
             android:textSize="17dip"
             />
-        <ImageView
+      <!--  <ImageView
             android:id="@+id/fragment_list_image_content"
             android:layout_marginTop="3dip"
             android:scaleType="fitXY"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"/>-->
+
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/fragment_list_image_content"
+            android:layout_width="300dp"
+            android:layout_marginTop="3dip"
+            android:layout_height="300dp"
+            fresco:fadeDuration="100"
+            android:layout_gravity="center_horizontal"
+            fresco:actualImageScaleType="focusCrop"
+            fresco:placeholderImage="@drawable/loadimage_can_loading_success"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:failureImage="@drawable/loadimage_can_loading_error"
+            fresco:failureImageScaleType="centerInside"
+            fresco:retryImageScaleType="centerCrop"
+            fresco:progressBarImageScaleType="centerInside"
+            fresco:progressBarAutoRotateInterval="1000"
+            fresco:backgroundImage="@drawable/loadimage_can_loading_success"
+            fresco:roundAsCircle="false"
+            fresco:roundedCornerRadius="1dp"
+            fresco:roundTopLeft="true"
+            fresco:roundTopRight="true"
+            fresco:roundBottomLeft="true"
+            fresco:roundBottomRight="true"
+            fresco:roundingBorderWidth="2dp"
+            />
 
         <TextView
             android:id="@+id/list_tv_tip"
