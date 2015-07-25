@@ -1,6 +1,7 @@
 package com.android.joke.jokeproject.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,11 @@ import com.android.joke.jokeproject.R;
 import com.android.joke.jokeproject.common.BaseBean;
 import com.android.joke.jokeproject.common.StringUtils;
 import com.android.joke.jokeproject.utils.ImageUtils;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -51,7 +57,7 @@ public class ImageMoreListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(
                     R.layout.fragment_image_load_more_adapter, parent, false);
-            holder.contenImage = (ImageView) convertView.findViewById(R.id.fragment_image_more_list_iv);
+            holder.mSimpleDraweeView = (SimpleDraweeView) convertView.findViewById(R.id.fragment_image_more_list_iv);
             holder.textView = (TextView) convertView.findViewById(R.id.fragment_image_more_list_tv);
             convertView.setTag(holder);
         } else {
@@ -67,12 +73,18 @@ public class ImageMoreListAdapter extends BaseAdapter {
             holder.textView.setVisibility(View.GONE);
         }
         //加载图片
-        ImageLoader.getInstance().displayImage(urlStr, holder.contenImage, posterAudioImgOptions);
+        //ImageLoader.getInstance().displayImage(urlStr, holder.mSimpleDraweeView, posterAudioImgOptions);
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(urlStr)).build();
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setImageRequest(request)
+                .setAutoPlayAnimations(true)
+                .build();
+        holder.mSimpleDraweeView.setController(controller);
         return convertView;
     }
 
     private class ViewHolder {
         TextView textView;
-        ImageView contenImage;
+        SimpleDraweeView mSimpleDraweeView;
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,12 +13,37 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:id="@+id/fragment_image_more_list_iv"-->
+        <!--android:layout_marginTop="6dip"-->
+        <!--android:layout_marginBottom="6dip"-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="300dp"-->
+        <!--android:layout_gravity="center_horizontal"/>-->
+
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/fragment_image_more_list_iv"
-        android:layout_marginTop="6dip"
-        android:layout_marginBottom="6dip"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_gravity="center_horizontal"/>
+        fresco:fadeDuration="300"
+        android:layout_marginTop="10dp"
+        fresco:actualImageScaleType="focusCrop"
+        fresco:placeholderImage="@drawable/loadimage_can_loading_error"
+        fresco:placeholderImageScaleType="fitCenter"
+        fresco:failureImage="@drawable/loadimage_can_loading_error"
+        fresco:failureImageScaleType="centerInside"
+        fresco:retryImageScaleType="centerCrop"
+        fresco:progressBarImageScaleType="centerInside"
+        fresco:progressBarAutoRotateInterval="1000"
+        fresco:backgroundImage="@drawable/loadimage_can_loading_success"
+        fresco:roundAsCircle="false"
+        fresco:roundedCornerRadius="1dp"
+        fresco:roundTopLeft="true"
+        fresco:roundTopRight="true"
+        fresco:roundBottomLeft="true"
+        fresco:roundBottomRight="true"
+        fresco:roundingBorderWidth="2dp"
+        />
+
 
 </LinearLayout>
