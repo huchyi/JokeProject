@@ -106,7 +106,7 @@ public class ImageListAdapter extends BaseAdapter{
     }
 
     private void toViewBigImage(String url){
-        final ImageScanDialog mCustomDialog = new ImageScanDialog(mContext,url);
+        final ImageScanDialog mCustomDialog = new ImageScanDialog(mContext,R.style.Dialog_Fullscreen,url);
         mCustomDialog.setClicklistener(new ImageScanDialog.ClickListenerInterface() {
             @Override
             public void doDismissDialog() {

@@ -92,7 +92,7 @@ public class ImageMoreListAdapter extends BaseAdapter {
     private void toViewBigImage(int position){
         BaseBean bean = getItem(position);
         String url = bean.getStr("purl");
-        final ImageScanDialog mCustomDialog = new ImageScanDialog(mContext,url);
+        final ImageScanDialog mCustomDialog = new ImageScanDialog(mContext,R.style.Dialog_Fullscreen,url);
         mCustomDialog.setClicklistener(new ImageScanDialog.ClickListenerInterface() {
             @Override
             public void doDismissDialog() {

@@ -37,8 +37,8 @@ public class ImageScanDialog extends Dialog {
         this.clickListenerInterface = clickListenerInterface;
     }
 
-    public ImageScanDialog(Context context,String url) {
-        super(context);
+    public ImageScanDialog(Context context, int theme,String url) {
+        super(context, theme);
         this.mUrl = url;
         this.mContext = context;
         posterAudioImgOptions = ImageUtils.getDisplayImageOptions(true, R.drawable.loadimage_can_loading_success,
