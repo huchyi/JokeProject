@@ -1,13 +1,13 @@
 package com.android.joke.jokeproject.common;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * 不好用的BaseBean

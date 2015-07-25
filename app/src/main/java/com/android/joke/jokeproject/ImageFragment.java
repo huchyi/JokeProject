@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.joke.jokeproject.adapter.ImageListAdapter;
-import com.android.joke.jokeproject.adapter.ListBaseAdapter;
 import com.android.joke.jokeproject.common.BaseBean;
 import com.android.joke.jokeproject.common.Constant;
 import com.android.joke.jokeproject.common.NetworkUtils;
