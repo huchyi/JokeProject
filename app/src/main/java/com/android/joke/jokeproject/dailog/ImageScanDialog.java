@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -79,8 +78,38 @@ public class ImageScanDialog extends Dialog {
 
             @Override
             public void onLoadingCancelled(String s, View view) {
-                mLoadingIV.setVisibility(View.GONE);
-                gestureImageView.setImageResource(R.drawable.loadimage_can_loading_success);
+                ImageView imageView1 = new ImageView(mContext);
+                if(mUrl.contains("pengfu.cn/big")){
+                    mUrl = mUrl.replace("pengfu.cn/big","pengfu.cn/middle");
+                }
+                ImageLoader.getInstance().displayImage(mUrl, imageView1, posterAudioImgOptions, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String s, View view) {
+                        mLoadingIV.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String s, View view, FailReason failReason) {
+                        mLoadingIV.setVisibility(View.GONE);
+                        gestureImageView.setImageResource(R.drawable.loadimage_can_loading_error);
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                        mLoadingIV.setVisibility(View.GONE);
+                        if (bitmap != null) {
+                            gestureImageView.setImageBitmap(bitmap);
+                        } else {
+                            gestureImageView.setImageResource(R.drawable.loadimage_can_loading_error);
+                        }
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String s, View view) {
+                        mLoadingIV.setVisibility(View.GONE);
+                        gestureImageView.setImageResource(R.drawable.loadimage_can_loading_error);
+                    }
+                });
             }
         });
 

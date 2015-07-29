@@ -1,6 +1,8 @@
 package com.android.joke.jokeproject.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.joke.jokeproject.MoreImageActivity;
 import com.android.joke.jokeproject.R;
 import com.android.joke.jokeproject.common.BaseBean;
 import com.android.joke.jokeproject.dailog.CustomDialog;
@@ -118,14 +121,17 @@ public class ImageListAdapter extends BaseAdapter{
 
 
     public void toViewMoreImage(ArrayList<BaseBean> listImgBean){
-        final CustomDialog mCustomDialog = new CustomDialog(mContext,R.style.Dialog_Fullscreen,listImgBean);
-        mCustomDialog.setClicklistener(new CustomDialog.ClickListenerInterface() {
-            @Override
-            public void doDismissDialog() {
-                mCustomDialog.dismiss();
-            }
-        });
-        mCustomDialog.show();
+//       final CustomDialog mCustomDialog = new CustomDialog(mContext,R.style.Dialog_Fullscreen,listImgBean);
+//        mCustomDialog.setClicklistener(new CustomDialog.ClickListenerInterface() {
+//            @Override
+//            public void doDismissDialog() {
+//                mCustomDialog.dismiss();
+//            }
+//        });
+//        mCustomDialog.show();
+        Intent intent = new Intent(mContext, MoreImageActivity.class);
+        intent.putExtra("data",listImgBean);
+        mContext.startActivity(intent);
     }
 
     private class ViewHolder {
