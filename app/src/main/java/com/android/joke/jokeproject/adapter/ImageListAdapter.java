@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.android.joke.jokeproject.MoreImageActivity;
 import com.android.joke.jokeproject.R;
 import com.android.joke.jokeproject.common.BaseBean;
-import com.android.joke.jokeproject.dailog.CustomDialog;
 import com.android.joke.jokeproject.dailog.ImageScanDialog;
 import com.android.joke.jokeproject.utils.ImageUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
