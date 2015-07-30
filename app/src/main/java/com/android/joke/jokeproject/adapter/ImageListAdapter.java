@@ -29,7 +29,7 @@ public class ImageListAdapter extends BaseAdapter{
     public ImageListAdapter(Context context , ArrayList<BaseBean> list){
         this.mList = list;
         this.mContext = context;
-        posterAudioImgOptions = ImageUtils.getDisplayImageOptions(true, R.drawable.loadimage_can_loading_success,
+        posterAudioImgOptions = ImageUtils.getDisplayImageOptions(true,true, R.drawable.loadimage_can_loading_success,
                 R.drawable.loadimage_can_loading_error, R.drawable.loadimage_can_loading_error, -1, -1);
     }
 

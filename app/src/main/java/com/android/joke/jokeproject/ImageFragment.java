@@ -47,7 +47,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentView = inflater.inflate(R.layout.fragment_image, container, false);
-        ImageUtils.initImageLoader(getActivity(),ImageUtils.getDisplayImageOptions(true,
+        ImageUtils.initImageLoader(getActivity(),ImageUtils.getDisplayImageOptions(true,true,
                 R.drawable.loadimage_can_loading_success, R.drawable.loadimage_can_loading_error, R.drawable.loadimage_can_loading_error, -1, -1));
         listview = (ListView) fragmentView.findViewById(R.id.fragment_image_list);
         refreshll = (LinearLayout) fragmentView.findViewById(R.id.refresh);

@@ -123,13 +123,17 @@ public class ImageUtils {
      * @param durationMillis 淡入时间毫秒
      * @return DisplayImageOptions
      */
-    public static DisplayImageOptions getDisplayImageOptions(boolean cacheInMemory, int ic_loading, int ic_empty, int ic_error, int roundPixels, int durationMillis) {
+    public static DisplayImageOptions getDisplayImageOptions(boolean cacheInMemory,boolean isZoom, int ic_loading, int ic_empty, int ic_error, int roundPixels, int durationMillis) {
         // LogUtils.i(LOG_TAG, "getDisplayImageOptions :  ic_stub " + ic_loading + " , ic_empty " + ic_empty + " , ic_error " + ic_error + " , roundPixels " + roundPixels + " , durationMillis " + durationMillis);
         DisplayImageOptions.Builder optionsBuilder = new DisplayImageOptions.Builder();
         optionsBuilder.bitmapConfig(Bitmap.Config.RGB_565);// 图片格式,RGB_565可以避免OOM
         optionsBuilder.cacheOnDisk(true);// 文件缓存
         optionsBuilder.cacheInMemory(cacheInMemory);// 内存缓存,开启后更容易OOM,如果容易OOM应该关闭此配置
-        optionsBuilder.imageScaleType(ImageScaleType.EXACTLY);// 缩放模式，IN_SAMPLE_INT或者EXACTLY可以避免OOM
+        if (isZoom) {
+            optionsBuilder.imageScaleType(ImageScaleType.EXACTLY);
+        }else{
+            optionsBuilder.imageScaleType(ImageScaleType.NONE);// 缩放模式，IN_SAMPLE_INT或者EXACTLY可以避免OOM
+        }
         if (ic_loading > 0) {
             optionsBuilder.showImageOnLoading(ic_loading);
         }

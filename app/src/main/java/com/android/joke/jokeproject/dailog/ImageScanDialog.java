@@ -40,7 +40,7 @@ public class ImageScanDialog extends Dialog {
         super(context, theme);
         this.mUrl = url;
         this.mContext = context;
-        posterAudioImgOptions = ImageUtils.getDisplayImageOptions(true, R.drawable.loadimage_can_loading_success,
+        posterAudioImgOptions = ImageUtils.getDisplayImageOptions(true,false, R.drawable.loadimage_can_loading_success,
                 R.drawable.loadimage_can_loading_error, R.drawable.loadimage_can_loading_error, -1, -1);
     }
 
