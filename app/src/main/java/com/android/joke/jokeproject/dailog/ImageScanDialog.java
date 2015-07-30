@@ -50,9 +50,33 @@ public class ImageScanDialog extends Dialog {
         setContentView(R.layout.image_scan_dialog_layout);
         mLoadingIV = (ImageView) findViewById(R.id.loadingImageView);
         gestureImageView = (GestureImageView) findViewById(R.id.image);
+
+        /*if(mUrl.contains("pengfu.cn") && mUrl.contains(".gif")){
+            scanFrameImage();
+        }else if(mUrl.contains("pengfu.cn/middle")){
+            mUrl = mUrl.replace("pengfu.cn/middle","pengfu.cn/big");
+            scanImage();
+        }*/
         if(mUrl.contains("pengfu.cn/middle")){
             mUrl = mUrl.replace("pengfu.cn/middle","pengfu.cn/big");
         }
+        scanImage();
+
+        gestureImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickListenerInterface.doDismissDialog();
+            }
+        });
+    }
+
+
+    /**
+     *
+     * 图片预览
+     *
+     * **/
+    private void scanImage(){
         ImageView imageView = new ImageView(mContext);
         ImageLoader.getInstance().displayImage(mUrl, imageView, posterAudioImgOptions, new ImageLoadingListener() {
             @Override
@@ -113,13 +137,20 @@ public class ImageScanDialog extends Dialog {
             }
         });
 
-        gestureImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickListenerInterface.doDismissDialog();
-            }
-        });
     }
+
+
+    /**
+     *
+     * 动态图
+     *
+     * */
+    private void scanFrameImage(){
+
+
+
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
